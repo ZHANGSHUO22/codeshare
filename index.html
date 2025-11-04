@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>我的知识库 - GitBook风格目录网页</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+
+        
+
+        body {
+
+            display: flex;
+
+            min-height: 100vh;
+
+            background-color: #f5f7fa;
+
+            color: #333;
+
+        }
+
+        
+
+        /* 侧边栏样式 */
+
+        .sidebar {
+
+            width: 300px;
+
+            background-color: #2c3e50;
+
+            color: #ecf0f1;
+
+            padding: 20px 0;
+
+            overflow-y: auto;
+
+            height: 100vh;
+
+            position: fixed;
+
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        
+
+        .sidebar-header {
+
+            padding: 0 20px 20px;
+
+            border-bottom: 1px solid #34495e;
+
+            margin-bottom: 20px;
+
+        }
+
+        
+
+        .sidebar-header h1 {
+
+            font-size: 1.5rem;
+
+            font-weight: 600;
+
+        }
+
+        
+
+        .sidebar-header p {
+
+            font-size: 0.9rem;
+
+            color: #bdc3c7;
+
+            margin-top: 5px;
+
+        }
+
+        
+
+        .toc {
+
+            padding: 0 10px;
+
+        }
+
+        
+
+        .toc-item {
+
+            margin-bottom: 5px;
+
+        }
+
+        
+
+        .toc-link {
+
+            display: block;
+
+            padding: 10px 15px;
+
+            color: #ecf0f1;
+
+            text-decoration: none;
+
+            border-radius: 5px;
+
+            transition: all 0.3s ease;
+
+        }
+
+        
+
+        .toc-link:hover {
+
+            background-color: #34495e;
+
+        }
+
+        
+
+        .toc-link.active {
+
+            background-color: #3498db;
+
+            color: white;
+
+        }
+
+        
+
+        .toc-sub {
+
+            margin-left: 20px;
+
+            display: none;
+
+        }
+
+        
+
+        .toc-item.expanded > .toc-sub {
+
+            display: block;
+
+        }
+
+        
+
+        .toc-toggle {
+
+            float: right;
+
+            cursor: pointer;
+
+            font-size: 0.8rem;
+
+        }
+
+        
+
+        /* 主内容区域样式 */
+
+        .main-content {
+
+            flex: 1;
+
+            margin-left: 300px;
+
+            padding: 40px;
+
+            max-width: 900px;
+
+        }
+
+        
+
+        .content-section {
+
+            background-color: white;
+
+            border-radius: 8px;
+
+            padding: 30px;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+            margin-bottom: 30px;
+
+        }
+
+        
+
+        .content-section h2 {
+
+            color: #2c3e50;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+        
+
+        .content-section p {
+
+            line-height: 1.6;
+
+            margin-bottom: 15px;
+
+        }
+
+        
+
+        .content-section ul, .content-section ol {
+
+            margin-left: 20px;
+
+            margin-bottom: 15px;
+
+        }
+
+        
+
+        .content-section li {
+
+            margin-bottom: 8px;
+
+            line-height: 1.5;
+
+        }
+
+        
+
+        .code-block {
+
+            background-color: #f8f9fa;
+
+            border-left: 4px solid #3498db;
+
+            padding: 15px;
+
+            margin: 15px 0;
+
+            border-radius: 0 5px 5px 0;
+
+            font-family: 'Courier New', monospace;
+
+            overflow-x: auto;
+
+        }
+
+        
+
+        /* 响应式设计 */
+
+        @media (max-width: 768px) {
+
+            body {
+
+                flex-direction: column;
+
+            }
+
+            
+
+            .sidebar {
+
+                width: 100%;
+
+                height: auto;
+
+                position: relative;
+
+            }
+
+            
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 20px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 侧边栏目录 -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-header">
+
+            <h1>我的知识库</h1>
+
+            <p>记录学习笔记与心得</p>
+
+        </div>
+
+        <div class="toc">
+
+            <div class="toc-item">
+
+                <a href="#intro" class="toc-link active">简介</a>
+
+            </div>
+
+            <div class="toc-item">
+
+                <div class="toc-link">
+
+                    Web开发
+
+                    <span class="toc-toggle">▼</span>
+
+                </div>
+
+                <div class="toc-sub">
+
+                    <a href="#html-basics" class="toc-link">HTML基础</a>
+
+                    <a href="#css-styling" class="toc-link">CSS样式</a>
+
+                    <a href="#javascript" class="toc-link">JavaScript</a>
+
+                </div>
+
+            </div>
+
+            <div class="toc-item">
+
+                <div class="toc-link">
+
+                    数据结构与算法
+
+                    <span class="toc-toggle">▼</span>
+
+                </div>
+
+                <div class="toc-sub">
+
+                    <a href="#arrays" class="toc-link">数组与链表</a>
+
+                    <a href="#trees" class="toc-link">树结构</a>
+
+                    <a href="#sorting" class="toc-link">排序算法</a>
+
+                </div>
+
+            </div>
+
+            <div class="toc-item">
+
+                <a href="#resources" class="toc-link">学习资源</a>
+
+            </div>
+
+            <div class="toc-item">
+
+                <a href="#about" class="toc-link">关于作者</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 主内容区域 -->
+
+    <div class="main-content">
+
+        <section id="intro" class="content-section">
+
+            <h2>简介</h2>
+
+            <p>欢迎来到我的个人知识库！这里记录了我学习编程过程中的笔记、心得和总结。</p>
+
+            <p>知识库采用类似GitBook的目录结构，方便查找和阅读。左侧是目录导航，点击可以快速跳转到相应章节。</p>
+
+            <p>这个网页完全使用HTML、CSS和JavaScript构建，没有使用任何框架，代码简洁易懂。</p>
+
+        </section>
+
+
+
+        <section id="html-basics" class="content-section">
+
+            <h2>HTML基础</h2>
+
+            <p>HTML（超文本标记语言）是构建网页的基础。</p>
+
+            <h3>HTML文档结构</h3>
+
+            <div class="code-block">
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html lang="zh-CN"&gt;
+
+&lt;head&gt;
+
+    &lt;meta charset="UTF-8"&gt;
+
+    &lt;title&gt;网页标题&lt;/title&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;这是一个标题&lt;/h1&gt;
+
+    &lt;p&gt;这是一个段落&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+
+            </div>
+
+            <h3>常用HTML标签</h3>
+
+            <ul>
+
+                <li><strong>&lt;h1&gt;-&lt;h6&gt;</strong>：标题标签</li>
+
+                <li><strong>&lt;p&gt;</strong>：段落标签</li>
+
+                <li><strong>&lt;a&gt;</strong>：链接标签</li>
+
+                <li><strong>&lt;img&gt;</strong>：图像标签</li>
+
+                <li><strong>&lt;ul&gt;,&lt;ol&gt;,&lt;li&gt;</strong>：列表标签</li>
+
+            </ul>
+
+        </section>
+
+
+
+        <section id="css-styling" class="content-section">
+
+            <h2>CSS样式</h2>
+
+            <p>CSS（层叠样式表）用于控制网页的样式和布局。</p>
+
+            <h3>CSS选择器</h3>
+
+            <ul>
+
+                <li><strong>元素选择器</strong>：p { color: red; }</li>
+
+                <li><strong>类选择器</strong>：.classname { font-size: 16px; }</li>
+
+                <li><strong>ID选择器</strong>：#idname { background: blue; }</li>
+
+            </ul>
+
+            <h3>盒模型</h3>
+
+            <p>CSS盒模型包括内容(content)、内边距(padding)、边框(border)和外边距(margin)。</p>
+
+            <div class="code-block">
+
+.box {
+
+    width: 300px;
+
+    padding: 20px;
+
+    border: 1px solid #ccc;
+
+    margin: 10px;
+
+}
+
+            </div>
+
+        </section>
+
+
+
+        <section id="javascript" class="content-section">
+
+            <h2>JavaScript</h2>
+
+            <p>JavaScript是一种脚本语言，用于为网页添加交互功能。</p>
+
+            <h3>变量声明</h3>
+
+            <div class="code-block">
+
+// ES6之前的变量声明
+
+var name = "张三";
+
+
+
+// ES6引入的变量声明
+
+let age = 25;
+
+const PI = 3.14;
+
+            </div>
+
+            <h3>函数定义</h3>
+
+            <div class="code-block">
+
+// 函数声明
+
+function greet(name) {
+
+    return "Hello, " + name;
+
+}
+
+
+
+// 箭头函数
+
+const greet = (name) => {
+
+    return "Hello, " + name;
+
+}
+
+            </div>
+
+        </section>
+
+
+
+        <section id="resources" class="content-section">
+
+            <h2>学习资源</h2>
+
+            <p>以下是我在学习过程中发现的有用资源：</p>
+
+            <ul>
+
+                <li><a href="https://developer.mozilla.org/zh-CN/" target="_blank">MDN Web Docs</a> - 最全面的Web开发文档</li>
+
+                <li><a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp</a> - 免费的编程学习平台</li>
+
+                <li><a href="https://github.com/" target="_blank">GitHub</a> - 代码托管和协作平台</li>
+
+                <li><a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a> - 程序员问答社区</li>
+
+            </ul>
+
+        </section>
+
+
+
+        <section id="about" class="content-section">
+
+            <h2>关于作者</h2>
+
+            <p>我是一名编程爱好者，正在学习Web开发技术。</p>
+
+            <p>这个知识库是我学习过程的记录，希望能对其他人有所帮助。</p>
+
+            <p>如果你有任何建议或问题，欢迎通过以下方式联系我：</p>
+
+            <ul>
+
+                <li>邮箱：example@email.com</li>
+
+                <li>GitHub：github.com/username</li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+
+    <script>
+
+        // 目录折叠/展开功能
+
+        document.querySelectorAll('.toc-toggle').forEach(toggle => {
+
+            toggle.addEventListener('click', function(e) {
+
+                e.stopPropagation();
+
+                const parentItem = this.parentElement.parentElement;
+
+                parentItem.classList.toggle('expanded');
+
+                
+
+                // 切换箭头方向
+
+                if (parentItem.classList.contains('expanded')) {
+
+                    this.textContent = '▲';
+
+                } else {
+
+                    this.textContent = '▼';
+
+                }
+
+            });
+
+        });
+
+        
+
+        // 目录项点击激活
+
+        document.querySelectorAll('.toc-link').forEach(link => {
+
+            link.addEventListener('click', function(e) {
+
+                // 移除所有激活状态
+
+                document.querySelectorAll('.toc-link').forEach(item => {
+
+                    item.classList.remove('active');
+
+                });
+
+                
+
+                // 添加当前激活状态
+
+                this.classList.add('active');
+
+                
+
+                // 如果是子目录项，确保父目录展开
+
+                let parentItem = this.parentElement;
+
+                while (parentItem && !parentItem.classList.contains('toc-item')) {
+
+                    parentItem = parentItem.parentElement;
+
+                }
+
+                
+
+                if (parentItem && parentItem.querySelector('.toc-toggle')) {
+
+                    parentItem.classList.add('expanded');
+
+                    parentItem.querySelector('.toc-toggle').textContent = '▲';
+
+                }
+
+            });
+
+        });
+
+        
+
+        // 页面加载时展开当前激活的目录
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const activeLink = document.querySelector('.toc-link.active');
+
+            if (activeLink) {
+
+                let parentItem = activeLink.parentElement;
+
+                while (parentItem && !parentItem.classList.contains('toc-item')) {
+
+                    parentItem = parentItem.parentElement;
+
+                }
+
+                
+
+                if (parentItem && parentItem.querySelector('.toc-toggle')) {
+
+                    parentItem.classList.add('expanded');
+
+                    parentItem.querySelector('.toc-toggle').textContent = '▲';
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
